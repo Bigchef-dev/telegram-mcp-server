@@ -1,5 +1,7 @@
 # Telegram MCP Server
 
+[![smithery badge](https://smithery.ai/badge/@NexusX-MCP/telegram-mcp-server)](https://smithery.ai/server/@NexusX-MCP/telegram-mcp-server)
+
 An MCP server implementation that provides tools for interacting with the [Telegram Bot API](https://core.telegram.org/bots/api). This service allows AI assistants to send messages and retrieve bot information programmatically.
 
 ## Tools
