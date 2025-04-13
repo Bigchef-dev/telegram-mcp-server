@@ -1,0 +1,23 @@
+# Smithery configuration file: https://smithery.ai/docs/config#smitheryyaml
+
+startCommand:
+  type: stdio
+  configSchema:
+    # JSON Schema defining the configuration options for the MCP.
+    type: object
+    required:
+      - telegramBotToken
+    properties:
+      telegramBotToken:
+        type: string
+        description: Your Telegram bot token obtained from BotFather
+  commandFunction:
+    # A JS function that produces the CLI command based on the given config to start the MCP on stdio.
+    |-
+    (config) => ({
+      command: 'npm',
+      args: ['run', 'start:prod'],
+      env: { TELEGRAM_BOT_TOKEN: config.telegramBotToken }
+    })
+  exampleConfig:
+    telegramBotToken: dummy_bot_token_12345
