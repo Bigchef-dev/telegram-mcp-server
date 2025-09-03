@@ -8,7 +8,7 @@ export default {
       useESM: true,
     }],
   },
-  testMatch: ['**/__tests__/**/*.test.ts'],
+  testMatch: ['**/tests/**/*.test.ts', '**/__tests__/**/*.test.ts'],
   setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
   extensionsToTreatAsEsm: ['.ts'],
   moduleNameMapper: {

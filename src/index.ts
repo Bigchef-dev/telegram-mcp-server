@@ -1,14 +1,14 @@
 import { McpServer, ResourceTemplate } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";
-import { TGService } from "./service.js";
-import dotenv from 'dotenv';
+import { TGService } from "./domains/telegram/index.js";
+import { loadConfig } from "./shared/config/index.js";
 
-// Load environment variables
-dotenv.config();
+// Load configuration
+const config = loadConfig();
 
 // Initialize the Telegram service
-const telegramService = new TGService(process.env.TELEGRAM_BOT_TOKEN || '');
+const telegramService = new TGService(config.telegram.token);
 
 // Create an MCP server
 const server = new McpServer({

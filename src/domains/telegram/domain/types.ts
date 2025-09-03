@@ -1,10 +1,9 @@
-import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
-import dotenv from 'dotenv';
+/**
+ * Telegram Bot API Types
+ * Domain types for Telegram entities and responses
+ */
 
-// Load environment variables from .env file
-dotenv.config();
-
-interface TelegramResponse<T> {
+export interface TelegramResponse<T> {
   ok: boolean;
   result?: T;
   description?: string;
@@ -15,7 +14,7 @@ interface TelegramResponse<T> {
   };
 }
 
-interface TelegramUser {
+export interface TelegramUser {
   id: number;
   is_bot: boolean;
   first_name: string;
@@ -23,7 +22,7 @@ interface TelegramUser {
   language_code?: string;
 }
 
-interface TelegramUpdate {
+export interface TelegramUpdate {
   update_id: number;
   message?: Message;
   edited_message?: Message;
@@ -50,7 +49,7 @@ interface TelegramUpdate {
   removed_chat_boost?: ChatBoostRemoved;
 }
 
-interface Message {
+export interface Message {
   message_id: number;
   from?: TelegramUser;
   date: number;
@@ -59,7 +58,7 @@ interface Message {
   // Add other message fields as needed
 }
 
-interface Chat {
+export interface Chat {
   id: number;
   type: string;
   title?: string;
@@ -68,14 +67,14 @@ interface Chat {
   last_name?: string;
 }
 
-interface GetUpdatesParams {
+export interface GetUpdatesParams {
   offset?: number;
   limit?: number;
   timeout?: number;
   allowed_updates?: string[];
 }
 
-interface BusinessConnection {
+export interface BusinessConnection {
   id: string;
   user: TelegramUser;
   user_chat_id: number;
@@ -84,13 +83,13 @@ interface BusinessConnection {
   is_enabled: boolean;
 }
 
-interface BusinessMessagesDeleted {
+export interface BusinessMessagesDeleted {
   business_connection_id: string;
   chat: Chat;
   message_ids: number[];
 }
 
-interface MessageReactionUpdated {
+export interface MessageReactionUpdated {
   chat: Chat;
   message_id: number;
   user: TelegramUser;
@@ -100,14 +99,14 @@ interface MessageReactionUpdated {
   new_reaction: ReactionType[];
 }
 
-interface MessageReactionCountUpdated {
+export interface MessageReactionCountUpdated {
   chat: Chat;
   message_id: number;
   date: number;
   reactions: ReactionCount[];
 }
 
-interface InlineQuery {
+export interface InlineQuery {
   id: string;
   from: TelegramUser;
   query: string;
@@ -116,7 +115,7 @@ interface InlineQuery {
   location?: Location;
 }
 
-interface ChosenInlineResult {
+export interface ChosenInlineResult {
   result_id: string;
   from: TelegramUser;
   location?: Location;
@@ -124,7 +123,7 @@ interface ChosenInlineResult {
   query: string;
 }
 
-interface CallbackQuery {
+export interface CallbackQuery {
   id: string;
   from: TelegramUser;
   message?: Message;
@@ -134,14 +133,14 @@ interface CallbackQuery {
   game_short_name?: string;
 }
 
-interface ShippingQuery {
+export interface ShippingQuery {
   id: string;
   from: TelegramUser;
   invoice_payload: string;
   shipping_address: ShippingAddress;
 }
 
-interface PreCheckoutQuery {
+export interface PreCheckoutQuery {
   id: string;
   from: TelegramUser;
   currency: string;
@@ -151,14 +150,14 @@ interface PreCheckoutQuery {
   order_info?: OrderInfo;
 }
 
-interface PaidMediaPurchased {
+export interface PaidMediaPurchased {
   user: TelegramUser;
   chat: Chat;
   message_id: number;
   invoice_payload: string;
 }
 
-interface Location {
+export interface Location {
   longitude: number;
   latitude: number;
   horizontal_accuracy?: number;
@@ -167,7 +166,7 @@ interface Location {
   proximity_alert_radius?: number;
 }
 
-interface ShippingAddress {
+export interface ShippingAddress {
   country_code: string;
   state: string;
   city: string;
@@ -176,25 +175,25 @@ interface ShippingAddress {
   post_code: string;
 }
 
-interface OrderInfo {
+export interface OrderInfo {
   name?: string;
   phone_number?: string;
   email?: string;
   shipping_address?: ShippingAddress;
 }
 
-interface ReactionType {
+export interface ReactionType {
   type: string;
   emoji?: string;
   custom_emoji_id?: string;
 }
 
-interface ReactionCount {
+export interface ReactionCount {
   type: ReactionType;
   total_count: number;
 }
 
-interface Poll {
+export interface Poll {
   id: string;
   question: string;
   options: PollOption[];
@@ -210,12 +209,12 @@ interface Poll {
   close_date?: number;
 }
 
-interface PollOption {
+export interface PollOption {
   text: string;
   voter_count: number;
 }
 
-interface MessageEntity {
+export interface MessageEntity {
   type: string;
   offset: number;
   length: number;
@@ -225,13 +224,13 @@ interface MessageEntity {
   custom_emoji_id?: string;
 }
 
-interface PollAnswer {
+export interface PollAnswer {
   poll_id: string;
   user: TelegramUser;
   option_ids: number[];
 }
 
-interface ChatMemberUpdated {
+export interface ChatMemberUpdated {
   chat: Chat;
   from: TelegramUser;
   date: number;
@@ -241,7 +240,7 @@ interface ChatMemberUpdated {
   via_chat_folder_invite_link?: boolean;
 }
 
-interface ChatMember {
+export interface ChatMember {
   user: TelegramUser;
   status: string;
   custom_title?: string;
@@ -272,7 +271,7 @@ interface ChatMember {
   until_date?: number;
 }
 
-interface ChatInviteLink {
+export interface ChatInviteLink {
   invite_link: string;
   creator: TelegramUser;
   creates_join_request: boolean;
@@ -284,7 +283,7 @@ interface ChatInviteLink {
   pending_join_request_count?: number;
 }
 
-interface ChatJoinRequest {
+export interface ChatJoinRequest {
   chat: Chat;
   from: TelegramUser;
   user_chat_id: number;
@@ -293,24 +292,24 @@ interface ChatJoinRequest {
   invite_link?: ChatInviteLink;
 }
 
-interface ChatBoostUpdated {
+export interface ChatBoostUpdated {
   chat: Chat;
   boost: ChatBoost;
 }
 
-interface ChatBoostRemoved {
+export interface ChatBoostRemoved {
   chat: Chat;
   boost: ChatBoost;
 }
 
-interface ChatBoost {
+export interface ChatBoost {
   boost_id: string;
   add_date: number;
   expiration_date: number;
   source: ChatBoostSource;
 }
 
-interface ChatBoostSource {
+export interface ChatBoostSource {
   source: string;
   user?: TelegramUser;
   giveaway_message?: Message;
@@ -319,122 +318,10 @@ interface ChatBoostSource {
   giveaway_message_id?: number;
 }
 
-export class TGService {
-  private readonly api: AxiosInstance;
-  private readonly baseUrl: string;
-
-  constructor(token: string) {
-    if (!token) {
-      throw new Error('Telegram bot token is required');
-    }
-
-    this.baseUrl = `https://api.telegram.org/bot${token}`;
-
-    this.api = axios.create({
-      baseURL: this.baseUrl,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-
-    // Add response interceptor for error handling
-    this.api.interceptors.response.use(
-      (response: AxiosResponse) => response,
-      (error: any) => {
-        if (error.response) {
-          const telegramError = error.response.data as TelegramResponse<never>;
-          throw new Error(
-            `Telegram API Error: ${telegramError.description || error.message}`
-          );
-        }
-        throw error;
-      }
-    );
-  }
-
-  private async request<T>(
-    method: string,
-    params?: Record<string, any>,
-    config?: AxiosRequestConfig
-  ): Promise<T> {
-    try {
-      const response: AxiosResponse<TelegramResponse<T>> = await this.api.post(
-        method,
-        params,
-        config
-      );
-
-      if (!response.data.ok) {
-        throw new Error(response.data.description || 'Unknown error occurred');
-      }
-
-      return response.data.result as T;
-    } catch (error) {
-      if (error instanceof Error) {
-        throw new Error(`Telegram API request failed: ${error.message}`);
-      }
-      throw error;
-    }
-  }
-
-  /**
-   * A simple method for testing your bot's authentication token.
-   * Returns basic information about the bot in form of a User object.
-   */
-  async getMe(): Promise<TelegramUser> {
-    return this.request<TelegramUser>('getMe');
-  }
-
-  /**
-   * Send a message to a chat
-   * @param chatId Unique identifier for the target chat
-   * @param text Text of the message to be sent
-   * @param params Additional parameters for the message
-   */
-  async sendMessage(
-    chatId: number | string,
-    text: string,
-    params?: Record<string, any>
-  ): Promise<any> {
-    return this.request('sendMessage', {
-      chat_id: chatId,
-      text,
-      ...params,
-    });
-  }
-
-  /**
-   * Use this method to receive incoming updates using long polling.
-   * @param params Optional parameters for the getUpdates method
-   * @returns Array of Update objects
-   */
-  async getUpdates(params?: GetUpdatesParams): Promise<TelegramUpdate[]> {
-    return this.request<TelegramUpdate[]>('getUpdates', params);
-  }
-
-  /**
-   * Use this method to forward messages of any kind. Service messages and messages with protected content can't be forwarded.
-   * @param chatId Unique identifier for the target chat or username of the target channel
-   * @param fromChatId Unique identifier for the chat where the original message was sent
-   * @param messageId Message identifier in the chat specified in from_chat_id
-   * @param params Additional parameters for the forward message
-   */
-  async forwardMessage(
-    chatId: number | string,
-    fromChatId: number | string,
-    messageId: number,
-    params?: {
-      message_thread_id?: number;
-      video_start_timestamp?: number;
-      disable_notification?: boolean;
-      protect_content?: boolean;
-    }
-  ): Promise<any> {
-    return this.request('forwardMessage', {
-      chat_id: chatId,
-      from_chat_id: fromChatId,
-      message_id: messageId,
-      ...params,
-    });
-  }
+// Parameters for forward message operation
+export interface ForwardMessageParams {
+  message_thread_id?: number;
+  video_start_timestamp?: number;
+  disable_notification?: boolean;
+  protect_content?: boolean;
 }
