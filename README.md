@@ -81,6 +81,25 @@ Gets up-to-date information about the chat. Returns detailed chat information in
   - Business info: intro, location, opening hours (for business accounts)
   - Personal info: birthdate, bio, emoji status (for private chats)
 
+### sendPoll
+Sends a native poll to a chat. Returns the sent Message containing the poll on success. Note that polls can't be sent to channel direct messages chats.
+- `chat_id`: Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+- `question`: Poll question, 1-300 characters
+- `options`: Array of **exactly 2 to 10 answer options** (required). Each option must have text of 1-100 characters with optional formatting
+- `type` (optional): Poll type, "quiz" or "regular" (defaults to "regular")
+- `is_anonymous` (optional): True if the poll should be anonymous (defaults to True)
+- `allows_multiple_answers` (optional): True if multiple answers are allowed (defaults to False, ignored for quiz polls)
+- `correct_option_id` (optional): 0-based identifier of the correct answer (required for quiz polls)
+- `explanation` (optional): Text shown for incorrect quiz answers, 0-200 characters
+- `open_period` (optional): Poll duration in seconds, 5-600 (can't be used with close_date)
+- `close_date` (optional): Unix timestamp when poll closes (can't be used with open_period)
+- `is_closed` (optional): True to immediately close the poll (useful for previews)
+- `disable_notification` (optional): Send silently
+- `protect_content` (optional): Protect message from forwarding/saving
+- `reply_parameters` (optional): Reply to another message
+- `reply_markup` (optional): Additional interface options (keyboards, etc.)
+- Additional options: business_connection_id, message_thread_id, question_parse_mode, question_entities, explanation_parse_mode, explanation_entities, allow_paid_broadcast, message_effect_id
+
 ## Configuration
 
 ### Environment Variables

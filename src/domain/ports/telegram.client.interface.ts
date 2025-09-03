@@ -13,6 +13,7 @@ import {
   UnpinChatMessageParams,
   GetChatParams,
   ChatFullInfo,
+  SendPollParams,
 } from '../../types/index.js';
 
 /**
@@ -96,4 +97,10 @@ export interface ITelegramClient {
   getChat(
     chatId: number | string
   ): Promise<ChatFullInfo>;
+
+  /**
+   * Send a native poll
+   * @param params Poll parameters
+   */
+  sendPoll(params: SendPollParams): Promise<Message>;
 }

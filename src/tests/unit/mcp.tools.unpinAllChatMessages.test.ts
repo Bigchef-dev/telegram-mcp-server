@@ -6,18 +6,17 @@ describe('UnpinAllChatMessagesTool', () => {
   let unpinAllChatMessagesTool: UnpinAllChatMessagesTool;
 
   beforeEach(() => {
-    mockTelegramClient = {
-      getMe: jest.fn(),
-      sendMessage: jest.fn(),
-      getUpdates: jest.fn(),
-      forwardMessage: jest.fn(),
-      pinChatMessage: jest.fn(),
-      unpinChatMessage: jest.fn(),
-      unpinAllChatMessages: jest.fn(),
-      getChat: jest.fn(),
-    };
-    
-    unpinAllChatMessagesTool = new UnpinAllChatMessagesTool(mockTelegramClient);
+  mockTelegramClient = {
+    getMe: jest.fn(),
+    sendMessage: jest.fn(),
+    getUpdates: jest.fn(),
+    forwardMessage: jest.fn(),
+    pinChatMessage: jest.fn(),
+    unpinChatMessage: jest.fn(),
+    unpinAllChatMessages: jest.fn(),
+    getChat: jest.fn(),
+    sendPoll: jest.fn(),
+  };    unpinAllChatMessagesTool = new UnpinAllChatMessagesTool(mockTelegramClient);
   });
 
   describe('tool configuration', () => {

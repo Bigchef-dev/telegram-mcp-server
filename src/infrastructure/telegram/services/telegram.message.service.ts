@@ -1,4 +1,4 @@
-import { Message, ForwardMessageParams, PinChatMessageParams, UnpinChatMessageParams, UnpinAllChatMessagesParams } from '../../../types/index.js';
+import { Message, ForwardMessageParams, PinChatMessageParams, UnpinChatMessageParams, SendPollParams } from '../../../types/index.js';
 import { BaseTelegramService } from '../base/telegram.base.service.js';
 
 /**
@@ -143,5 +143,13 @@ export class TelegramMessageService extends BaseTelegramService {
     return this.request<boolean>('unpinAllChatMessages', {
       chat_id: chatId,
     });
+  }
+
+  /**
+   * Use this method to send a native poll.
+   * @param params Parameters for sending the poll
+   */
+  async sendPoll(params: SendPollParams): Promise<Message> {
+    return this.request<Message>('sendPoll', params);
   }
 }

@@ -5,6 +5,7 @@
 
 import { TelegramUser } from './core.types.js';
 import { Chat } from './chat.types.js';
+import { Poll } from './poll.types.js';
 
 /**
  * Telegram message representation
@@ -15,6 +16,7 @@ export interface Message {
   date: number;
   chat: Chat;
   text?: string;
+  poll?: Poll;
   // Add other message fields as needed
 }
 

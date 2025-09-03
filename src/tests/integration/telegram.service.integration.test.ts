@@ -53,4 +53,83 @@ describe('TGService Integration Tests', () => {
       expect(result[0]).toHaveProperty('update_id');
     }
   });
+
+  it('should send a poll to a chat', async () => {
+    // Replace with your actual chat ID
+    const TEST_CHAT_ID = process.env.TEST_CHAT_ID;
+    if (!TEST_CHAT_ID) {
+      throw new Error('TEST_CHAT_ID environment variable is required for integration tests');
+    }
+
+    const pollParams = {
+      chat_id: TEST_CHAT_ID,
+      question: 'Integration Test: What is your favorite programming language? (Choose up to 4 options)',
+      options: [
+        { text: 'JavaScript' },
+        { text: 'TypeScript' },
+        { text: 'Python' },
+        { text: 'Java' },
+        { text: 'C#' },
+        { text: 'Go' },
+        { text: 'Rust' },
+        { text: 'Swift' }
+      ], // 8 options (within 2-10 limit)
+      is_anonymous: false, // Make it public to test different options
+      allows_multiple_answers: true // Allow multiple selections
+    };
+
+    const result = await tgService.sendPoll(pollParams);
+    
+    // Verify the response structure
+    expect(result).toHaveProperty('message_id');
+    expect(result).toHaveProperty('chat');
+    expect(result.chat).toHaveProperty('id', Number(TEST_CHAT_ID));
+    expect(result).toHaveProperty('poll');
+    expect(result.poll).toHaveProperty('id');
+    expect(result.poll).toHaveProperty('question', 'Integration Test: What is your favorite programming language?');
+    expect(result.poll).toHaveProperty('options');
+    expect(result.poll?.options).toHaveLength(4);
+    expect(result.poll).toHaveProperty('is_anonymous', true);
+    expect(result.poll).toHaveProperty('allows_multiple_answers', false);
+    expect(result.poll).toHaveProperty('type', 'regular');
+    expect(result.poll).toHaveProperty('is_closed', false);
+  });
+
+  it('should send a quiz poll to a chat', async () => {
+    // Replace with your actual chat ID
+    const TEST_CHAT_ID = process.env.TEST_CHAT_ID;
+    if (!TEST_CHAT_ID) {
+      throw new Error('TEST_CHAT_ID environment variable is required for integration tests');
+    }
+
+    const quizParams = {
+      chat_id: TEST_CHAT_ID,
+      question: 'Integration Test Quiz: What is 2 + 2?',
+      options: [
+        { text: '3' },
+        { text: '4' },
+        { text: '5' },
+        { text: '22' }
+      ],
+      type: 'quiz' as const,
+      correct_option_id: 1, // Index 1 = "4"
+      explanation: 'The correct answer is 4. Basic mathematics!',
+      is_anonymous: false,
+      open_period: 60 // 1 minute
+    };
+
+    const result = await tgService.sendPoll(quizParams);
+    
+    // Verify the response structure for quiz
+    expect(result).toHaveProperty('message_id');
+    expect(result).toHaveProperty('chat');
+    expect(result.chat).toHaveProperty('id', Number(TEST_CHAT_ID));
+    expect(result).toHaveProperty('poll');
+    expect(result.poll).toHaveProperty('id');
+    expect(result.poll).toHaveProperty('question', 'Integration Test Quiz: What is 2 + 2?');
+    expect(result.poll).toHaveProperty('type', 'quiz');
+    expect(result.poll).toHaveProperty('correct_option_id', 1);
+    expect(result.poll).toHaveProperty('explanation', 'The correct answer is 4. Basic mathematics!');
+    expect(result.poll).toHaveProperty('is_anonymous', false);
+  });
 }); 

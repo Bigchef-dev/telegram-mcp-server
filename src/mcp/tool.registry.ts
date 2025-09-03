@@ -1,7 +1,7 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { ITelegramClient } from "../domain/ports/index.js";
+import type { IMCPTool } from "./tools/index.js";
 import {
-  IMCPTool,
   GetBotInfoTool,
   SendMessageTool,
   GetUpdatesTool,
@@ -9,7 +9,8 @@ import {
   PinChatMessageTool,
   UnpinChatMessageTool,
   UnpinAllChatMessagesTool,
-  GetChatTool
+  GetChatTool,
+  SendPollTool
 } from "./tools/index.js";
 
 /**
@@ -35,7 +36,8 @@ export class MCPToolsRegistry {
       new PinChatMessageTool(this.telegramClient),
       new UnpinChatMessageTool(this.telegramClient),
       new UnpinAllChatMessagesTool(this.telegramClient),
-      new GetChatTool(this.telegramClient)
+      new GetChatTool(this.telegramClient),
+      new SendPollTool(this.telegramClient)
     ];
 
     for (const tool of tools) {

@@ -6,18 +6,17 @@ describe('PinChatMessageTool', () => {
   let pinChatMessageTool: PinChatMessageTool;
 
   beforeEach(() => {
-    mockTelegramClient = {
-      getMe: jest.fn(),
-      sendMessage: jest.fn(),
-      getUpdates: jest.fn(),
-      forwardMessage: jest.fn(),
-      pinChatMessage: jest.fn(),
-      unpinChatMessage: jest.fn(),
-      unpinAllChatMessages: jest.fn(),
-      getChat: jest.fn(),
-    };
-    
-    pinChatMessageTool = new PinChatMessageTool(mockTelegramClient);
+  mockTelegramClient = {
+    getMe: jest.fn(),
+    sendMessage: jest.fn(),
+    getUpdates: jest.fn(),
+    forwardMessage: jest.fn(),
+    pinChatMessage: jest.fn(),
+    unpinChatMessage: jest.fn(),
+    unpinAllChatMessages: jest.fn(),
+    getChat: jest.fn(),
+    sendPoll: jest.fn(),
+  };    pinChatMessageTool = new PinChatMessageTool(mockTelegramClient);
   });
 
   describe('tool configuration', () => {

@@ -24,6 +24,31 @@ describe('TGService - Messages', () => {
       if (url === 'unpinAllChatMessages') {
         return Promise.resolve({ data: { ok: true, result: true } });
       }
+      if (url === 'sendPoll') {
+        return Promise.resolve({ 
+          data: { 
+            ok: true, 
+            result: {
+              message_id: 123,
+              date: 1234567890,
+              chat: { id: 123456789, type: 'group' },
+              poll: {
+                id: 'poll123',
+                question: 'Test poll?',
+                options: [
+                  { text: 'Option 1', voter_count: 0 },
+                  { text: 'Option 2', voter_count: 0 }
+                ],
+                total_voter_count: 0,
+                is_closed: false,
+                is_anonymous: true,
+                type: 'regular',
+                allows_multiple_answers: false
+              }
+            }
+          }
+        });
+      }
       return Promise.reject(new Error('Not Found'));
     });
     tgService = new TGService('test-token');
@@ -187,6 +212,77 @@ describe('TGService - Messages', () => {
         {
           chat_id: chatId,
         },
+        undefined
+      );
+    });
+  });
+
+  describe('sendPoll', () => {
+    it('should send poll successfully', async () => {
+      const pollParams = {
+        chat_id: 123456789,
+        question: 'What is your favorite color?',
+        options: [
+          { text: 'Red' },
+          { text: 'Blue' }
+        ]
+      };
+      
+      const result = await tgService.sendPoll(pollParams);
+
+      expect(result.poll).toBeDefined();
+      expect(result.poll?.question).toBe('Test poll?');
+      expect(mockAxiosInstance.post).toHaveBeenCalledWith(
+        'sendPoll',
+        pollParams,
+        undefined
+      );
+    });
+
+    it('should send quiz poll with correct answer', async () => {
+      const quizParams = {
+        chat_id: 123456789,
+        question: 'What is 2+2?',
+        options: [
+          { text: '3' },
+          { text: '4' },
+          { text: '5' }
+        ],
+        type: 'quiz' as const,
+        correct_option_id: 1,
+        explanation: '2+2 equals 4'
+      };
+      
+      const result = await tgService.sendPoll(quizParams);
+
+      expect(result.poll).toBeDefined();
+      expect(mockAxiosInstance.post).toHaveBeenCalledWith(
+        'sendPoll',
+        quizParams,
+        undefined
+      );
+    });
+
+    it('should send anonymous poll with multiple answers', async () => {
+      const multiParams = {
+        chat_id: '@testchannel',
+        question: 'Select all that apply:',
+        options: [
+          { text: 'Option A' },
+          { text: 'Option B' },
+          { text: 'Option C' }
+        ],
+        is_anonymous: false,
+        allows_multiple_answers: true,
+        open_period: 300
+      };
+      
+      const result = await tgService.sendPoll(multiParams);
+
+      expect(result.poll).toBeDefined();
+      expect(mockAxiosInstance.post).toHaveBeenCalledWith(
+        'sendPoll',
+        multiParams,
         undefined
       );
     });

@@ -76,6 +76,9 @@ export type {
   Poll,
   PollOption,
   PollAnswer,
+  InputPollOption,
+  ReplyParameters,
+  SendPollParams,
 } from './poll.types.js';
 
 // Boost types

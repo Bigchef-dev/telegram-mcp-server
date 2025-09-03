@@ -41,3 +41,54 @@ export interface PollAnswer {
   user: TelegramUser;
   option_ids: number[];
 }
+
+/**
+ * Input poll option for creating polls
+ */
+export interface InputPollOption {
+  text: string;
+  text_parse_mode?: string;
+  text_entities?: MessageEntity[];
+}
+
+/**
+ * Reply parameters for message replies
+ */
+export interface ReplyParameters {
+  message_id: number;
+  chat_id?: number | string;
+  allow_sending_without_reply?: boolean;
+  quote?: string;
+  quote_parse_mode?: string;
+  quote_entities?: MessageEntity[];
+  quote_position?: number;
+}
+
+/**
+ * Parameters for sending a poll
+ */
+export interface SendPollParams {
+  business_connection_id?: string;
+  chat_id: number | string;
+  message_thread_id?: number;
+  question: string;
+  question_parse_mode?: string;
+  question_entities?: MessageEntity[];
+  options: InputPollOption[];
+  is_anonymous?: boolean;
+  type?: 'quiz' | 'regular';
+  allows_multiple_answers?: boolean;
+  correct_option_id?: number;
+  explanation?: string;
+  explanation_parse_mode?: string;
+  explanation_entities?: MessageEntity[];
+  open_period?: number;
+  close_date?: number;
+  is_closed?: boolean;
+  disable_notification?: boolean;
+  protect_content?: boolean;
+  allow_paid_broadcast?: boolean;
+  message_effect_id?: string;
+  reply_parameters?: ReplyParameters;
+  reply_markup?: any; // InlineKeyboardMarkup | ReplyKeyboardMarkup | ReplyKeyboardRemove | ForceReply
+}

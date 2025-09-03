@@ -11,7 +11,8 @@ const mockTelegramClient: ITelegramClient = {
   pinChatMessage: jest.fn(),
   unpinChatMessage: jest.fn(),
   unpinAllChatMessages: jest.fn(),
-  getChat: jest.fn()
+  getChat: jest.fn(),
+  sendPoll: jest.fn()
 };
 
 describe('GetChatTool', () => {

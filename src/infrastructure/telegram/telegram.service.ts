@@ -7,7 +7,8 @@ import {
   ForwardMessageParams,
   PinChatMessageParams,
   UnpinChatMessageParams,
-  ChatFullInfo
+  ChatFullInfo,
+  SendPollParams
 } from '../../types/index.js';
 import { TelegramAuthService } from './services/telegram.auth.service.js';
 import { TelegramMessageService } from './services/telegram.message.service.js';
@@ -76,6 +77,10 @@ export class TelegramService implements ITelegramClient {
     chatId: number | string
   ): Promise<boolean> {
     return this.messageService.unpinAllChatMessages(chatId);
+  }
+
+  async sendPoll(params: SendPollParams): Promise<Message> {
+    return this.messageService.sendPoll(params);
   }
 
   // Delegate to updates service
