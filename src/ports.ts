@@ -9,7 +9,7 @@ import {
   GetUpdatesParams,
   Message,
   ForwardMessageParams
-} from './types.js';
+} from './types/index.js';
 
 /**
  * Interface for Telegram Bot API Client

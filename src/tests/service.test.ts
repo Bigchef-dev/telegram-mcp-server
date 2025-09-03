@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { TGService } from '../infrastructure/telegram.client.js';
+import { TGService } from '../telegram.client.js';
 import { mockTelegramApi } from './__mocks__/telegramApi.js';
 
 // Mock axios

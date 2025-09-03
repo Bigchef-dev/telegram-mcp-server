@@ -1,4 +1,4 @@
-import { TGService } from '../infrastructure/telegram.client.js';
+import { TGService } from '../telegram.client.js';
 import dotenv from 'dotenv';
 
 // Load environment variables from .env file

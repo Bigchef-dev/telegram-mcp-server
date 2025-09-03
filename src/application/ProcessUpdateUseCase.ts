@@ -1,5 +1,5 @@
-import { ITelegramClient } from '../domain/ports.js';
-import { TelegramUpdate, TelegramUser } from '../domain/types.js';
+import { ITelegramClient } from '../ports.js';
+import { TelegramUpdate, TelegramUser } from '../types/index.js';
 
 /**
  * Example Use Case: Process Telegram Updates

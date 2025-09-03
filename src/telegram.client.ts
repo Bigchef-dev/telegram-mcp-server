@@ -1,5 +1,5 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
-import { ITelegramClient } from '../domain/ports.js';
+import { ITelegramClient } from './ports.js';
 import {
   TelegramResponse,
   TelegramUser,
@@ -7,7 +7,7 @@ import {
   GetUpdatesParams,
   Message,
   ForwardMessageParams
-} from '../domain/types.js';
+} from './types/index.js';
 
 /**
  * Telegram Bot API Client Implementation
