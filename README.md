@@ -65,6 +65,11 @@ Removes a message from the list of pinned messages in a chat. In private chats a
 - `businessConnectionId` (optional): Unique identifier of the business connection on behalf of which the message will be unpinned
 - Returns True on success
 
+### unpin_all_chat_messages
+Clears the list of pinned messages in a chat. In private chats and channel direct messages chats, no additional rights are required to unpin all pinned messages. Conversely, the bot must be an administrator with the 'can_pin_messages' right or the 'can_edit_messages' right to unpin all pinned messages in groups and channels respectively.
+- `chatId`: Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+- Returns True on success
+
 ## Configuration
 
 ### Environment Variables

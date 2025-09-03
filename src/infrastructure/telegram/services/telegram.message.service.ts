@@ -1,4 +1,4 @@
-import { Message, ForwardMessageParams, PinChatMessageParams, UnpinChatMessageParams } from '../../../types/index.js';
+import { Message, ForwardMessageParams, PinChatMessageParams, UnpinChatMessageParams, UnpinAllChatMessagesParams } from '../../../types/index.js';
 import { BaseTelegramService } from '../base/telegram.base.service.js';
 
 /**
@@ -131,5 +131,17 @@ export class TelegramMessageService extends BaseTelegramService {
     }
 
     return this.request<boolean>('unpinChatMessage', requestParams);
+  }
+
+  /**
+   * Use this method to clear the list of pinned messages in a chat.
+   * @param chatId Unique identifier for the target chat or username of the target channel
+   */
+  async unpinAllChatMessages(
+    chatId: number | string
+  ): Promise<boolean> {
+    return this.request<boolean>('unpinAllChatMessages', {
+      chat_id: chatId,
+    });
   }
 }

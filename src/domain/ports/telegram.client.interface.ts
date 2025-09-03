@@ -10,7 +10,8 @@ import {
   Message,
   ForwardMessageParams,
   PinChatMessageParams,
-  UnpinChatMessageParams
+  UnpinChatMessageParams,
+  UnpinAllChatMessagesParams
 } from '../../types/index.js';
 
 /**
@@ -77,5 +78,13 @@ export interface ITelegramClient {
     chatId: number | string,
     messageId?: number,
     params?: Omit<UnpinChatMessageParams, 'chat_id' | 'message_id'>
+  ): Promise<boolean>;
+
+  /**
+   * Clear the list of pinned messages in a chat
+   * @param chatId Target chat identifier
+   */
+  unpinAllChatMessages(
+    chatId: number | string
   ): Promise<boolean>;
 }

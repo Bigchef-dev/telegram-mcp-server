@@ -49,3 +49,10 @@ export interface UnpinChatMessageParams {
   chat_id: number | string;
   message_id?: number;
 }
+
+/**
+ * Parameters for unpinning all chat messages
+ */
+export interface UnpinAllChatMessagesParams {
+  chat_id: number | string;
+}

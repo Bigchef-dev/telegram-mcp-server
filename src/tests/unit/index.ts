@@ -11,3 +11,4 @@ import './telegram.service.messages.test.js';
 // MCP tool tests
 import './mcp.tools.pinChatMessage.test.js';
 import './mcp.tools.unpinChatMessage.test.js';
+import './mcp.tools.unpinAllChatMessages.test.js';

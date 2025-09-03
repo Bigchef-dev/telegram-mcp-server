@@ -13,6 +13,7 @@ describe('UnpinChatMessageTool', () => {
       forwardMessage: jest.fn(),
       pinChatMessage: jest.fn(),
       unpinChatMessage: jest.fn(),
+      unpinAllChatMessages: jest.fn(),
     };
     
     unpinChatMessageTool = new UnpinChatMessageTool(mockTelegramClient);

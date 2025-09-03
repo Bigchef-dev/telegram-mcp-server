@@ -21,6 +21,9 @@ describe('TGService - Messages', () => {
       if (url === 'unpinChatMessage') {
         return Promise.resolve({ data: { ok: true, result: true } });
       }
+      if (url === 'unpinAllChatMessages') {
+        return Promise.resolve({ data: { ok: true, result: true } });
+      }
       return Promise.reject(new Error('Not Found'));
     });
     tgService = new TGService('test-token');
@@ -151,6 +154,38 @@ describe('TGService - Messages', () => {
           chat_id: chatId,
           message_id: messageId,
           ...params,
+        },
+        undefined
+      );
+    });
+  });
+
+  describe('unpinAllChatMessages', () => {
+    it('should unpin all messages successfully', async () => {
+      const chatId = 123456789;
+
+      const result = await tgService.unpinAllChatMessages(chatId);
+
+      expect(result).toBe(true);
+      expect(mockAxiosInstance.post).toHaveBeenCalledWith(
+        'unpinAllChatMessages',
+        {
+          chat_id: chatId,
+        },
+        undefined
+      );
+    });
+
+    it('should work with channel username', async () => {
+      const chatId = '@testchannel';
+
+      const result = await tgService.unpinAllChatMessages(chatId);
+
+      expect(result).toBe(true);
+      expect(mockAxiosInstance.post).toHaveBeenCalledWith(
+        'unpinAllChatMessages',
+        {
+          chat_id: chatId,
         },
         undefined
       );
