@@ -14,6 +14,14 @@ src/
 │   └── ports.ts            # Domain interfaces (ITelegramClient)
 ├── infrastructure/          # Infrastructure layer - External adapters
 │   └── telegram.client.ts  # Telegram API client implementation
+├── mcp/                     # MCP (Model Context Protocol) layer
+│   ├── server.factory.ts   # MCP server factory and configuration
+│   └── tools/              # MCP tools - One tool per file
+│       ├── getBotInfo.handler.ts      # Get bot information tool
+│       ├── sendMessage.handler.ts     # Send message tool
+│       ├── getUpdates.handler.ts      # Get updates tool
+│       ├── forwardMessage.handler.ts  # Forward message tool
+│       └── handlers.ts               # Tool handlers barrel export
 ├── types/                   # Shared type definitions
 │   └── telegram/           # Telegram-specific types
 │       ├── index.ts        # Type exports
@@ -58,16 +66,17 @@ The application follows the hexagonal architecture pattern:
 ### 3. Clean Architecture Layers
 ```mermaid
 graph TD
-    A[MCP Client] --> B[index.ts - MCP Server]
-    B --> C[app.ts - Composition Root]
-    C --> D[application/ProcessUpdateUseCase]
+    A[MCP Client] --> B[index.ts - Entry Point]
+    B --> C[mcp/server.factory.ts - MCP Server Factory]
+    C --> D[mcp/tools/*.handler.ts - Tool Handlers]
     D --> E[domain/ports.ts - ITelegramClient]
     E --> F[infrastructure/telegram.client.ts - TGService]
     F --> G[Telegram API]
     
-    H[shared/config] --> C
+    H[shared/config] --> B
     I[types/telegram/*] --> D
     I --> F
+    J[app.ts - Composition Root] -.-> C
 ```
 
 ## Detailed Architecture
@@ -75,14 +84,32 @@ graph TD
 ### Entry Point Layer (`index.ts`)
 **Responsibility**: MCP (Model Context Protocol) server interface
 
-- Exposes Telegram functionalities as MCP tools
-- Handles external protocol communication
-- Bridges between MCP and internal application architecture
-- Tools exposed:
-  - `get_bot_info`: Get bot information
-  - `send_message`: Send messages to chats
-  - `get_updates`: Fetch bot updates
-  - `forward_message`: Forward messages between chats
+- **Clean Entry Point**: Minimal bootstrap logic, delegates to factory
+- **Configuration Loading**: Environment setup and validation
+- **Server Initialization**: Uses MCPServerFactory for clean separation
+- **Error Handling**: Centralized error management and graceful shutdown
+
+### MCP Layer (`mcp/`)
+**Responsibility**: Model Context Protocol implementation and tool management
+
+#### Server Factory (`server.factory.ts`)
+- **Server Configuration**: Creates and configures MCP server instance
+- **Tool Registration**: Registers all Telegram tools with proper schemas
+- **Capability Declaration**: Defines available tools and their parameters
+- **Clean Architecture**: Separates MCP concerns from business logic
+
+#### Tool Handlers (`tools/*.handler.ts`)
+**Modular Tool Architecture**: One file per tool for maintainability
+- **`getBotInfo.handler.ts`**: Bot information retrieval tool
+- **`sendMessage.handler.ts`**: Message sending functionality
+- **`getUpdates.handler.ts`**: Update polling tool
+- **`forwardMessage.handler.ts`**: Message forwarding tool
+
+Each tool handler includes:
+- Parameter validation schemas
+- Error handling and formatting
+- Type-safe execution methods
+- Capability definitions
 
 ### Composition Root (`app.ts`)
 **Responsibility**: Dependency injection and application bootstrap
@@ -196,20 +223,25 @@ Telegram Update → ProcessUpdateUseCase.processUpdate() → Business Logic → 
 - `TGService` (Adapter) implements the contract
 - Enables easy testing and technology switching
 
-### 2. **Use Case Pattern**
+### 2. **Factory Pattern**
+- `MCPServerFactory` encapsulates server creation and configuration
+- Centralizes tool registration and capability management
+- Simplifies testing and reduces coupling
+
+### 3. **Handler Pattern**
+- Each MCP tool has its own handler class
+- Consistent interface for parameter validation and execution
+- Easy to add, remove, or modify individual tools
+
+### 4. **Use Case Pattern**
 - `ProcessUpdateUseCase` encapsulates business operations
 - Single responsibility per use case
 - Clear separation of concerns
 
-### 3. **Composition Root Pattern**
+### 5. **Composition Root Pattern**
 - `app.ts` handles all dependency instantiation
 - Centralized dependency management
 - Simplified testing through constructor injection
-
-### 4. **Repository Pattern**
-- `ITelegramClient` acts as a repository for Telegram operations
-- Abstracts external data source access
-- Enables mocking for unit tests
 
 ## Testing Strategy
 
@@ -303,17 +335,19 @@ Telegram Update → ProcessUpdateUseCase.processUpdate() → Business Logic → 
 
 ## Future Extension Guidelines
 
-### Adding New Use Cases
-1. Create new use case class in `application/`
-2. Define required ports in `domain/ports.ts`
-3. Update composition root in `app.ts`
-4. Add corresponding MCP tools in `index.ts`
+### Adding New MCP Tools
+1. Create new tool handler in `src/mcp/tools/newTool.handler.ts`
+2. Implement handler with parameter schema and execute method
+3. Add tool export to `src/mcp/tools/handlers.ts`
+4. Update `MCPServerFactory` to register the new tool
+5. Add tool capability to server configuration
 
 ### Extending Telegram Functionality
 1. Add new methods to `ITelegramClient` interface
 2. Implement in `TGService` class
 3. Add corresponding types in `types/telegram/`
-4. Update use cases to utilize new functionality
+4. Create new tool handler for MCP exposure
+5. Update use cases to utilize new functionality
 
 ### Adding Persistence
 1. Define repository interfaces in `domain/ports.ts`
@@ -326,6 +360,30 @@ Telegram Update → ProcessUpdateUseCase.processUpdate() → Business Logic → 
 2. Implement adapters in `infrastructure/`
 3. Add configuration management
 4. Update use cases and composition root
+
+## Tool Development Best Practices
+
+### Creating New Tools
+- Follow the handler pattern established by existing tools
+- Include comprehensive parameter validation
+- Provide clear error messages and handling
+- Add JSDoc documentation for all public methods
+- Use consistent naming conventions (e.g., `*.handler.ts`)
+
+### Tool Structure
+```typescript
+export class NewToolHandler {
+  static readonly NAME = "tool_name";
+  static readonly DESCRIPTION = "Tool description";
+  static readonly PARAMETERS = z.object({...});
+  
+  constructor(private readonly telegramClient: ITelegramClient) {}
+  
+  async execute(args: ToolArgs) { /* implementation */ }
+  static getCapability() { /* capability definition */ }
+  static getParameterShape() { /* parameter schema */ }
+}
+```
 
 ## Best Practices
 
