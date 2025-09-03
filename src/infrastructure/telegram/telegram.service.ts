@@ -6,8 +6,7 @@ import {
   Message,
   ForwardMessageParams,
   PinChatMessageParams,
-  UnpinChatMessageParams,
-  UnpinAllChatMessagesParams
+  UnpinChatMessageParams
 } from '../../types/index.js';
 import { TelegramAuthService } from './services/telegram.auth.service.js';
 import { TelegramMessageService } from './services/telegram.message.service.js';

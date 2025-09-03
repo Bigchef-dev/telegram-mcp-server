@@ -11,7 +11,6 @@ import {
   ForwardMessageParams,
   PinChatMessageParams,
   UnpinChatMessageParams,
-  UnpinAllChatMessagesParams
 } from '../../types/index.js';
 
 /**
