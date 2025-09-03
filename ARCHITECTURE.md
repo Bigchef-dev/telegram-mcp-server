@@ -10,10 +10,24 @@ The application is structured into business domains with clear separation of con
 src/
 ├── domains/                  # Business domains
 │   └── telegram/            # Telegram domain
-│       ├── application/     # Use cases / orchestration
 │       ├── domain/          # Pure business logic
-│       ├── infrastructure/  # External adapters
-│       └── tests/          # Domain tests
+│       │   ├── ports.ts     # Domain interfaces
+│       │   └── types/       # Telegram-specific types
+│       └── infrastructure/  # External adapters
+├── application/             # Shared use cases / orchestration
+│   └── ProcessUpdateUseCase.ts
+├── domain/                  # Global domain layer
+│   ├── ports.ts            # Global interfaces
+│   └── types.ts            # Core domain types
+├── infrastructure/          # Global infrastructure
+│   └── telegram.client.ts  # Telegram API client
+├── types/                   # Shared type definitions
+│   ├── telegram/           # Telegram-specific types
+│   └── *.types.ts          # Various entity types
+├── tests/                   # Tests
+│   ├── service.test.ts
+│   ├── service.integration.test.ts
+│   └── __mocks__/
 ├── shared/                  # Shared code
 │   └── config/             # Global configuration
 ├── app.ts                  # Composition root (DI)
@@ -38,37 +52,50 @@ src/
 
 ## Detailed structure
 
-### Telegram Domain (`src/domains/telegram/`)
+### Architecture layers
 
-#### `domain/` - Pure business logic
-- **`types.ts`**: Telegram domain types and entities
+#### `src/domain/` - Global domain layer
+- **`types.ts`**: Core domain types and entities
   - `TelegramUser`, `TelegramUpdate`, `Message`, `Chat`, etc.
+  - Complete Telegram API type definitions
   - Purely functional types, no external dependencies
   
-- **`ports.ts`**: Domain interfaces (contracts)
+- **`ports.ts`**: Global domain interfaces (contracts)
   - `ITelegramClient`: Contract for Telegram API access
   - Defines available business operations
 
-#### `infrastructure/` - External adapters
-- **`telegram.client.ts`**: `ITelegramClient` implementation
-  - `TGService`: HTTP client for Telegram API
-  - Error handling, retry, authentication
-  - Uses axios for HTTP calls
+#### `src/domains/telegram/` - Telegram-specific domain
+- **`domain/ports.ts`**: Telegram-specific interfaces
+  - Extends global domain interfaces
+  - References types from global type system
+- **`domain/types/`**: Telegram domain-specific types
+  - Organized by functionality (boost, business, chat, etc.)
+  - Modular type definitions for better maintainability
+- **`infrastructure/`**: Telegram adapters
+  - Implementation of Telegram API clients
 
-#### `application/` - Use cases
+#### `src/application/` - Shared application layer
 - **`ProcessUpdateUseCase.ts`**: Business orchestrator
   - Coordinates interactions between domain and infrastructure
   - Implements application logic (echo bot, etc.)
   - Uses `ITelegramClient` via dependency injection
 
-#### `tests/` - Domain tests
-- Unit tests with mocks
-- Integration tests with real API
-- Fixtures and test utilities
+#### `src/infrastructure/` - Global infrastructure
+- **`telegram.client.ts`**: `ITelegramClient` implementation
+  - `TGService`: HTTP client for Telegram API
+  - Error handling, retry, authentication
+  - Uses axios for HTTP calls
 
-#### `index.ts` - Domain public API
-- Exports only public elements
-- Controlled entry point for other modules
+#### `src/types/` - Shared type definitions
+- Centralized type definitions organized by domain
+- **`telegram/`**: Telegram-specific types
+- **`*.types.ts`**: Various entity types (boost, business, chat, etc.)
+- **`index.ts`**: Type exports and public API
+
+#### `src/tests/` - Global tests
+- **`service.test.ts`**: Unit tests with mocks
+- **`service.integration.test.ts`**: Integration tests with real API
+- **`__mocks__/`**: Test fixtures and mock utilities
 
 ### Shared code (`src/shared/`)
 
@@ -93,19 +120,33 @@ src/
 graph TD
     A[MCP Client] --> B[index.ts - MCP Server]
     B --> C[app.ts - Composition Root]
-    C --> D[ProcessUpdateUseCase]
-    D --> E[ITelegramClient Interface]
-    E --> F[TGService Implementation]
+    C --> D[application/ProcessUpdateUseCase]
+    D --> E[domain/ITelegramClient Interface]
+    E --> F[infrastructure/TGService Implementation]
     F --> G[Telegram API]
     
-    H[Config] --> C
-    I[Domain Types] --> D
-    J[Domain Types] --> F
+    H[shared/config] --> C
+    I[types/*] --> D
+    J[domains/telegram/domain/types/*] --> D
+    K[domain/types.ts] --> F
+    L[domains/telegram/domain/ports.ts] --> E
 ```
 
-## Benefits of this architecture
+## Architecture characteristics
 
-### 1. **Testability**
+### 1. **Hybrid Domain Structure**
+- **Global layers**: Shared `domain/`, `application/`, `infrastructure/` for common functionality
+- **Domain-specific layers**: `domains/*/` for business-specific logic
+- **Centralized types**: `types/` for shared type definitions
+- **Modular organization**: Types split by functionality for better maintainability
+
+### 2. **Type System Organization**
+- **Global types** (`src/types/`): Shared across the entire application
+- **Domain types** (`src/domains/*/domain/types/`): Domain-specific entities
+- **Modular types**: Split by functionality (boost, business, chat, message, etc.)
+- **Index exports**: Centralized type exports for clean imports
+
+## Benefits of this architecture
 - Each layer can be tested independently
 - Easy mocking via interfaces
 - Fast unit tests without external dependencies
@@ -148,15 +189,19 @@ graph TD
 ### 1. **Allowed dependencies**
 ```
 domain/ ← DEPENDS ON NOTHING (pure types)
-application/ ← domain/ only
-infrastructure/ ← domain/ + external libraries
+domains/*/domain/ ← domain/ + types/ only
+application/ ← domain/ + domains/*/domain/ + types/
+infrastructure/ ← domain/ + types/ + external libraries
+domains/*/infrastructure/ ← domains/*/domain/ + types/ + external libraries
+types/ ← DEPENDS ON NOTHING (pure types)
 shared/ ← external libraries only
 ```
 
 ### 2. **Tests**
-- One test per layer
-- Mocks for external dependencies
-- Integration tests separated from unit tests
+- Centralized tests in `src/tests/`
+- Unit tests with mocks (`service.test.ts`)
+- Integration tests with real API (`service.integration.test.ts`)
+- Mock utilities in `__mocks__/` directory
 
 ### 3. **Types**
 - Strict typing with TypeScript
@@ -164,9 +209,15 @@ shared/ ← external libraries only
 - No `any` in business code
 
 ### 4. **Configuration**
-- Centralized environment variables
+- Centralized environment variables in `shared/config/`
 - Validation at startup
 - No direct access to `process.env` in domains
+
+### 5. **Type organization**
+- Global types in `src/types/` for shared entities
+- Domain-specific types in `src/domains/*/domain/types/`
+- Modular type organization by functionality
+- Centralized exports via index files
 
 ## Future extension
 

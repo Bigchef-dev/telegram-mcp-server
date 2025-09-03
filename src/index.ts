@@ -1,7 +1,7 @@
 import { McpServer, ResourceTemplate } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";
-import { TGService } from "./domains/telegram/index.js";
+import { TGService } from "./infrastructure/telegram.client.js";
 import { loadConfig } from "./shared/config/index.js";
 
 // Load configuration
