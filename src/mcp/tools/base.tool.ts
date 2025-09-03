@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { ITelegramClient } from "../../ports.js";
+import { ITelegramClient } from "../../domain/ports/index.js";
 import { CallToolResult } from "@modelcontextprotocol/sdk/types.js";
 
 /**

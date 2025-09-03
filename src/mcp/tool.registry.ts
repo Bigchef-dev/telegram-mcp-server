@@ -1,5 +1,5 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
-import { ITelegramClient } from "../ports.js";
+import { ITelegramClient } from "../domain/ports/index.js";
 import {
   IMCPTool,
   GetBotInfoTool,

@@ -1,4 +1,4 @@
-import { ITelegramClient } from '../ports.js';
+import { ITelegramClient } from '../domain/ports/index.js';
 import { TelegramUpdate, TelegramUser } from '../types/index.js';
 
 /**

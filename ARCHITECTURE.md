@@ -95,11 +95,6 @@ export interface ITelegramClient {
 3. Implement `execute` method (auto-typed from schema)
 4. Add to exports and server factory
 
-## Configuration
-
-- `TELEGRAM_TOKEN`: Required bot token
-- `NODE_ENV`: Environment (development/production)
-
 ## Testing
 
 - Unit tests with mocks (`service.test.ts`)

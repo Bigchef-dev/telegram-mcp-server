@@ -18,10 +18,10 @@ export interface AppConfig {
  * Load and validate configuration from environment variables
  */
 export function loadConfig(): AppConfig {
-  const telegramToken = process.env.TELEGRAM_TOKEN;
+  const telegramToken = process.env.TELEGRAM_BOT_TOKEN;
   
   if (!telegramToken) {
-    throw new Error('TELEGRAM_TOKEN environment variable is required');
+    throw new Error('TELEGRAM_BOT_TOKEN environment variable is required');
   }
 
   return {

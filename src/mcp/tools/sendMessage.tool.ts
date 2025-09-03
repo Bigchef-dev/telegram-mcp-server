@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { BaseTelegramTool } from "./base.tool.js";
-import { ITelegramClient } from "../../ports.js";
+import { ITelegramClient } from "../../domain/ports/index.js";
 
 /**
  * Send Message MCP Tool
