@@ -30,3 +30,13 @@ export interface MessageEntity {
   language?: string;
   custom_emoji_id?: string;
 }
+
+/**
+ * Parameters for pinning a chat message
+ */
+export interface PinChatMessageParams {
+  business_connection_id?: string;
+  chat_id: number | string;
+  message_id: number;
+  disable_notification?: boolean;
+}

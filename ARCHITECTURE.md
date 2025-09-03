@@ -91,9 +91,10 @@ export interface ITelegramClient {
 ## Adding New Tools
 
 1. Create `newTool.tool.ts` extending `BaseTelegramTool`
-2. Define `static readonly SCHEMA` 
+2. Define `static readonly SCHEMA` with Zod validation
 3. Implement `execute` method (auto-typed from schema)
-4. Add to exports and server factory
+4. Add method to domain interface and infrastructure service
+5. Export from `tools/index.ts` and register in `tool.registry.ts`
 
 ## Testing
 

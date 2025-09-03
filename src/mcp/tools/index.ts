@@ -8,3 +8,4 @@ export { GetBotInfoTool } from './getBotInfo.tool.js';
 export { SendMessageTool } from './sendMessage.tool.js';
 export { GetUpdatesTool } from './getUpdates.tool.js';
 export { ForwardMessageTool } from './forwardMessage.tool.js';
+export { PinChatMessageTool } from './pinChatMessage.tool.js';

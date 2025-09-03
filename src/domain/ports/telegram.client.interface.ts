@@ -8,7 +8,8 @@ import {
   TelegramUpdate,
   GetUpdatesParams,
   Message,
-  ForwardMessageParams
+  ForwardMessageParams,
+  PinChatMessageParams
 } from '../../types/index.js';
 
 /**
@@ -52,4 +53,16 @@ export interface ITelegramClient {
     messageId: number,
     params?: ForwardMessageParams
   ): Promise<Message>;
+
+  /**
+   * Pin a message in a chat
+   * @param chatId Target chat identifier
+   * @param messageId Message identifier to pin
+   * @param params Additional pin parameters
+   */
+  pinChatMessage(
+    chatId: number | string,
+    messageId: number,
+    params?: Omit<PinChatMessageParams, 'chat_id' | 'message_id'>
+  ): Promise<boolean>;
 }

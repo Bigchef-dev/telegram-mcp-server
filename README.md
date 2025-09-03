@@ -50,6 +50,14 @@ Forwards messages of any kind. Service messages and messages with protected cont
   - `protect_content` (optional): Protects the contents of the forwarded message from forwarding and saving
 - Returns the sent Message object on success
 
+### pin_chat_message
+Adds a message to the list of pinned messages in a chat. In private chats and channel direct messages chats, all non-service messages can be pinned. Conversely, the bot must be an administrator with the 'can_pin_messages' right or the 'can_edit_messages' right to pin messages in groups and channels respectively.
+- `chatId`: Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+- `messageId`: Identifier of a message to pin
+- `businessConnectionId` (optional): Unique identifier of the business connection on behalf of which the message will be pinned
+- `disableNotification` (optional): Pass True if it is not necessary to send a notification to all chat members about the new pinned message. Notifications are always disabled in channels and private chats.
+- Returns True on success
+
 ## Configuration
 
 ### Environment Variables

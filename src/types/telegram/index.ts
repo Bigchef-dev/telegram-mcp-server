@@ -13,6 +13,7 @@ export type {
 export type {
   Message,
   MessageEntity,
+  PinChatMessageParams,
 } from './message.types.js';
 
 // Chat types

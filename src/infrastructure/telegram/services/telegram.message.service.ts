@@ -1,4 +1,4 @@
-import { Message, ForwardMessageParams } from '../../../types/index.js';
+import { Message, ForwardMessageParams, PinChatMessageParams } from '../../../types/index.js';
 import { BaseTelegramService } from '../base/telegram.base.service.js';
 
 /**
@@ -87,6 +87,24 @@ export class TelegramMessageService extends BaseTelegramService {
     return this.request<{ message_id: number }>('copyMessage', {
       chat_id: chatId,
       from_chat_id: fromChatId,
+      message_id: messageId,
+      ...params,
+    });
+  }
+
+  /**
+   * Use this method to add a message to the list of pinned messages in a chat.
+   * @param chatId Unique identifier for the target chat or username of the target channel
+   * @param messageId Identifier of a message to pin
+   * @param params Additional parameters for pinning the message
+   */
+  async pinChatMessage(
+    chatId: number | string,
+    messageId: number,
+    params?: Omit<PinChatMessageParams, 'chat_id' | 'message_id'>
+  ): Promise<boolean> {
+    return this.request<boolean>('pinChatMessage', {
+      chat_id: chatId,
       message_id: messageId,
       ...params,
     });
