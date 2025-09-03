@@ -70,6 +70,17 @@ Clears the list of pinned messages in a chat. In private chats and channel direc
 - `chatId`: Unique identifier for the target chat or username of the target channel (in the format @channelusername)
 - Returns True on success
 
+### getChat
+Gets up-to-date information about the chat. Returns detailed chat information including settings, permissions, and metadata.
+- `chat_id`: Unique identifier for the target chat or username of the target supergroup or channel (in the format @channelusername)
+- Returns a ChatFullInfo object containing comprehensive chat details:
+  - Basic info: id, type, title, username, description
+  - Settings: permissions, slow mode delay, message auto-delete time
+  - Features: protected content, hidden members, aggressive anti-spam
+  - Optional info: photo, location, sticker set, linked chat
+  - Business info: intro, location, opening hours (for business accounts)
+  - Personal info: birthdate, bio, emoji status (for private chats)
+
 ## Configuration
 
 ### Environment Variables

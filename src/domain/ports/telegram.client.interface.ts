@@ -11,6 +11,8 @@ import {
   ForwardMessageParams,
   PinChatMessageParams,
   UnpinChatMessageParams,
+  GetChatParams,
+  ChatFullInfo,
 } from '../../types/index.js';
 
 /**
@@ -86,4 +88,12 @@ export interface ITelegramClient {
   unpinAllChatMessages(
     chatId: number | string
   ): Promise<boolean>;
+
+  /**
+   * Get up-to-date information about the chat
+   * @param chatId Target chat identifier
+   */
+  getChat(
+    chatId: number | string
+  ): Promise<ChatFullInfo>;
 }

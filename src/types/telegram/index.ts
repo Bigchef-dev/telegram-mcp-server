@@ -25,6 +25,8 @@ export type {
   ChatMemberUpdated,
   ChatInviteLink,
   ChatJoinRequest,
+  ChatFullInfo,
+  GetChatParams,
 } from './chat.types.js';
 
 // Update types

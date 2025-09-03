@@ -14,6 +14,7 @@ describe('PinChatMessageTool', () => {
       pinChatMessage: jest.fn(),
       unpinChatMessage: jest.fn(),
       unpinAllChatMessages: jest.fn(),
+      getChat: jest.fn(),
     };
     
     pinChatMessageTool = new PinChatMessageTool(mockTelegramClient);

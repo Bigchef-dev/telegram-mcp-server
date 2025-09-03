@@ -6,7 +6,8 @@ import {
   Message,
   ForwardMessageParams,
   PinChatMessageParams,
-  UnpinChatMessageParams
+  UnpinChatMessageParams,
+  ChatFullInfo
 } from '../../types/index.js';
 import { TelegramAuthService } from './services/telegram.auth.service.js';
 import { TelegramMessageService } from './services/telegram.message.service.js';
@@ -80,6 +81,11 @@ export class TelegramService implements ITelegramClient {
   // Delegate to updates service
   async getUpdates(params?: GetUpdatesParams): Promise<TelegramUpdate[]> {
     return this.updatesService.getUpdates(params);
+  }
+
+  // Delegate to chat service
+  async getChat(chatId: number | string): Promise<ChatFullInfo> {
+    return this.chatService.getChat({ chat_id: chatId });
   }
 
   // Expose specialized services for advanced usage
