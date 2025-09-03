@@ -6,7 +6,8 @@ import {
   SendMessageTool,
   GetUpdatesTool,
   ForwardMessageTool,
-  PinChatMessageTool
+  PinChatMessageTool,
+  UnpinChatMessageTool
 } from "./tools/index.js";
 
 /**
@@ -29,7 +30,8 @@ export class MCPToolsRegistry {
       new SendMessageTool(this.telegramClient),
       new GetUpdatesTool(this.telegramClient),
       new ForwardMessageTool(this.telegramClient),
-      new PinChatMessageTool(this.telegramClient)
+      new PinChatMessageTool(this.telegramClient),
+      new UnpinChatMessageTool(this.telegramClient)
     ];
 
     for (const tool of tools) {

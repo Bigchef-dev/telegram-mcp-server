@@ -9,7 +9,8 @@ import {
   GetUpdatesParams,
   Message,
   ForwardMessageParams,
-  PinChatMessageParams
+  PinChatMessageParams,
+  UnpinChatMessageParams
 } from '../../types/index.js';
 
 /**
@@ -64,5 +65,17 @@ export interface ITelegramClient {
     chatId: number | string,
     messageId: number,
     params?: Omit<PinChatMessageParams, 'chat_id' | 'message_id'>
+  ): Promise<boolean>;
+
+  /**
+   * Unpin a message in a chat
+   * @param chatId Target chat identifier
+   * @param messageId Message identifier to unpin (optional)
+   * @param params Additional unpin parameters
+   */
+  unpinChatMessage(
+    chatId: number | string,
+    messageId?: number,
+    params?: Omit<UnpinChatMessageParams, 'chat_id' | 'message_id'>
   ): Promise<boolean>;
 }

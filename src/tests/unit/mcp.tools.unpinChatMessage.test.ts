@@ -1,9 +1,9 @@
-import { PinChatMessageTool } from '../../mcp/tools/pinChatMessage.tool.js';
+import { UnpinChatMessageTool } from '../../mcp/tools/unpinChatMessage.tool.js';
 import { ITelegramClient } from '../../domain/ports/index.js';
 
-describe('PinChatMessageTool', () => {
+describe('UnpinChatMessageTool', () => {
   let mockTelegramClient: jest.Mocked<ITelegramClient>;
-  let pinChatMessageTool: PinChatMessageTool;
+  let unpinChatMessageTool: UnpinChatMessageTool;
 
   beforeEach(() => {
     mockTelegramClient = {
@@ -15,37 +15,36 @@ describe('PinChatMessageTool', () => {
       unpinChatMessage: jest.fn(),
     };
     
-    pinChatMessageTool = new PinChatMessageTool(mockTelegramClient);
+    unpinChatMessageTool = new UnpinChatMessageTool(mockTelegramClient);
   });
 
   describe('tool configuration', () => {
     it('should have correct name and description', () => {
-      expect(pinChatMessageTool.name).toBe('pin_chat_message');
-      expect(pinChatMessageTool.description).toBe('Pin a message in a chat. Returns True on success.');
+      expect(unpinChatMessageTool.name).toBe('unpin_chat_message');
+      expect(unpinChatMessageTool.description).toBe('Unpin a message in a chat. If no message ID is specified, unpins the most recent pinned message. Returns True on success.');
     });
 
     it('should have correct parameter schema', () => {
-      const shape = pinChatMessageTool.getParameterShape();
+      const shape = unpinChatMessageTool.getParameterShape();
       
       expect(shape).toHaveProperty('chatId');
       expect(shape).toHaveProperty('messageId');
       expect(shape).toHaveProperty('businessConnectionId');
-      expect(shape).toHaveProperty('disableNotification');
     });
   });
 
   describe('execute', () => {
-    it('should pin message successfully with minimal parameters', async () => {
+    it('should unpin specific message successfully', async () => {
       const params = {
         chatId: 123456789,
         messageId: 12345,
       };
 
-      mockTelegramClient.pinChatMessage.mockResolvedValueOnce(true);
+      mockTelegramClient.unpinChatMessage.mockResolvedValueOnce(true);
 
-      const result = await pinChatMessageTool.execute(params);
+      const result = await unpinChatMessageTool.execute(params);
 
-      expect(mockTelegramClient.pinChatMessage).toHaveBeenCalledWith(
+      expect(mockTelegramClient.unpinChatMessage).toHaveBeenCalledWith(
         params.chatId,
         params.messageId,
         {}
@@ -58,24 +57,43 @@ describe('PinChatMessageTool', () => {
       expect(responseData.messageId).toBe(params.messageId);
     });
 
-    it('should pin message with additional parameters', async () => {
+    it('should unpin most recent message when no messageId provided', async () => {
       const params = {
         chatId: '@testchannel',
-        messageId: 12345,
-        businessConnectionId: 'business123',
-        disableNotification: true,
       };
 
-      mockTelegramClient.pinChatMessage.mockResolvedValueOnce(true);
+      mockTelegramClient.unpinChatMessage.mockResolvedValueOnce(true);
 
-      const result = await pinChatMessageTool.execute(params);
+      const result = await unpinChatMessageTool.execute(params);
 
-      expect(mockTelegramClient.pinChatMessage).toHaveBeenCalledWith(
+      expect(mockTelegramClient.unpinChatMessage).toHaveBeenCalledWith(
+        params.chatId,
+        undefined,
+        {}
+      );
+      
+      expect(result.content[0].type).toBe('text');
+      const responseData = JSON.parse(result.content[0].text as string);
+      expect(responseData.success).toBe(true);
+      expect(responseData.messageId).toBe("most recent pinned message");
+    });
+
+    it('should unpin message with business connection', async () => {
+      const params = {
+        chatId: 123456789,
+        messageId: 12345,
+        businessConnectionId: 'business123',
+      };
+
+      mockTelegramClient.unpinChatMessage.mockResolvedValueOnce(true);
+
+      const result = await unpinChatMessageTool.execute(params);
+
+      expect(mockTelegramClient.unpinChatMessage).toHaveBeenCalledWith(
         params.chatId,
         params.messageId,
         {
           business_connection_id: params.businessConnectionId,
-          disable_notification: params.disableNotification,
         }
       );
       
@@ -91,9 +109,9 @@ describe('PinChatMessageTool', () => {
       };
 
       const error = new Error('Permission denied');
-      mockTelegramClient.pinChatMessage.mockRejectedValueOnce(error);
+      mockTelegramClient.unpinChatMessage.mockRejectedValueOnce(error);
 
-      const result = await pinChatMessageTool.execute(params);
+      const result = await unpinChatMessageTool.execute(params);
 
       expect(result.content[0].type).toBe('text');
       const responseData = JSON.parse(result.content[0].text as string);

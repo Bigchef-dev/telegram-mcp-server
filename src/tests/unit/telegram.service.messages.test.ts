@@ -18,6 +18,9 @@ describe('TGService - Messages', () => {
       if (url === 'pinChatMessage') {
         return Promise.resolve({ data: { ok: true, result: true } });
       }
+      if (url === 'unpinChatMessage') {
+        return Promise.resolve({ data: { ok: true, result: true } });
+      }
       return Promise.reject(new Error('Not Found'));
     });
     tgService = new TGService('test-token');
@@ -90,6 +93,60 @@ describe('TGService - Messages', () => {
 
       expect(mockAxiosInstance.post).toHaveBeenCalledWith(
         'pinChatMessage',
+        {
+          chat_id: chatId,
+          message_id: messageId,
+          ...params,
+        },
+        undefined
+      );
+    });
+  });
+
+  describe('unpinChatMessage', () => {
+    it('should unpin specific message successfully', async () => {
+      const chatId = 123456789;
+      const messageId = 12345;
+
+      const result = await tgService.unpinChatMessage(chatId, messageId);
+
+      expect(result).toBe(true);
+      expect(mockAxiosInstance.post).toHaveBeenCalledWith(
+        'unpinChatMessage',
+        {
+          chat_id: chatId,
+          message_id: messageId,
+        },
+        undefined
+      );
+    });
+
+    it('should unpin most recent message when no messageId provided', async () => {
+      const chatId = 123456789;
+
+      const result = await tgService.unpinChatMessage(chatId);
+
+      expect(result).toBe(true);
+      expect(mockAxiosInstance.post).toHaveBeenCalledWith(
+        'unpinChatMessage',
+        {
+          chat_id: chatId,
+        },
+        undefined
+      );
+    });
+
+    it('should handle additional parameters for unpinning', async () => {
+      const chatId = '@testchannel';
+      const messageId = 12345;
+      const params = { 
+        business_connection_id: 'business123'
+      };
+
+      await tgService.unpinChatMessage(chatId, messageId, params);
+
+      expect(mockAxiosInstance.post).toHaveBeenCalledWith(
+        'unpinChatMessage',
         {
           chat_id: chatId,
           message_id: messageId,

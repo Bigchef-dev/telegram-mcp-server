@@ -9,3 +9,4 @@ export { SendMessageTool } from './sendMessage.tool.js';
 export { GetUpdatesTool } from './getUpdates.tool.js';
 export { ForwardMessageTool } from './forwardMessage.tool.js';
 export { PinChatMessageTool } from './pinChatMessage.tool.js';
+export { UnpinChatMessageTool } from './unpinChatMessage.tool.js';

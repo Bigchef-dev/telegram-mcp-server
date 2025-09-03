@@ -58,6 +58,13 @@ Adds a message to the list of pinned messages in a chat. In private chats and ch
 - `disableNotification` (optional): Pass True if it is not necessary to send a notification to all chat members about the new pinned message. Notifications are always disabled in channels and private chats.
 - Returns True on success
 
+### unpin_chat_message
+Removes a message from the list of pinned messages in a chat. In private chats and channel direct messages chats, all messages can be unpinned. Conversely, the bot must be an administrator with the 'can_pin_messages' right or the 'can_edit_messages' right to unpin messages in groups and channels respectively.
+- `chatId`: Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+- `messageId` (optional): Identifier of the message to unpin. If not specified, the most recent pinned message (by sending date) will be unpinned
+- `businessConnectionId` (optional): Unique identifier of the business connection on behalf of which the message will be unpinned
+- Returns True on success
+
 ## Configuration
 
 ### Environment Variables

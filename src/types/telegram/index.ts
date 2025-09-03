@@ -14,6 +14,7 @@ export type {
   Message,
   MessageEntity,
   PinChatMessageParams,
+  UnpinChatMessageParams,
 } from './message.types.js';
 
 // Chat types

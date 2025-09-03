@@ -1,4 +1,4 @@
-import { Message, ForwardMessageParams, PinChatMessageParams } from '../../../types/index.js';
+import { Message, ForwardMessageParams, PinChatMessageParams, UnpinChatMessageParams } from '../../../types/index.js';
 import { BaseTelegramService } from '../base/telegram.base.service.js';
 
 /**
@@ -108,5 +108,28 @@ export class TelegramMessageService extends BaseTelegramService {
       message_id: messageId,
       ...params,
     });
+  }
+
+  /**
+   * Use this method to remove a message from the list of pinned messages in a chat.
+   * @param chatId Unique identifier for the target chat or username of the target channel
+   * @param messageId Identifier of the message to unpin (optional - if not specified, unpins the most recent pinned message)
+   * @param params Additional parameters for unpinning the message
+   */
+  async unpinChatMessage(
+    chatId: number | string,
+    messageId?: number,
+    params?: Omit<UnpinChatMessageParams, 'chat_id' | 'message_id'>
+  ): Promise<boolean> {
+    const requestParams: Record<string, any> = {
+      chat_id: chatId,
+      ...params,
+    };
+
+    if (messageId !== undefined) {
+      requestParams.message_id = messageId;
+    }
+
+    return this.request<boolean>('unpinChatMessage', requestParams);
   }
 }

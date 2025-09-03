@@ -5,7 +5,8 @@ import {
   GetUpdatesParams,
   Message,
   ForwardMessageParams,
-  PinChatMessageParams
+  PinChatMessageParams,
+  UnpinChatMessageParams
 } from '../../types/index.js';
 import { TelegramAuthService } from './services/telegram.auth.service.js';
 import { TelegramMessageService } from './services/telegram.message.service.js';
@@ -57,6 +58,14 @@ export class TelegramService implements ITelegramClient {
     params?: Omit<PinChatMessageParams, 'chat_id' | 'message_id'>
   ): Promise<boolean> {
     return this.messageService.pinChatMessage(chatId, messageId, params);
+  }
+
+  async unpinChatMessage(
+    chatId: number | string,
+    messageId?: number,
+    params?: Omit<UnpinChatMessageParams, 'chat_id' | 'message_id'>
+  ): Promise<boolean> {
+    return this.messageService.unpinChatMessage(chatId, messageId, params);
   }
 
   // Delegate to updates service

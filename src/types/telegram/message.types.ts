@@ -40,3 +40,12 @@ export interface PinChatMessageParams {
   message_id: number;
   disable_notification?: boolean;
 }
+
+/**
+ * Parameters for unpinning a chat message
+ */
+export interface UnpinChatMessageParams {
+  business_connection_id?: string;
+  chat_id: number | string;
+  message_id?: number;
+}
