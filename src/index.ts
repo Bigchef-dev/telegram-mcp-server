@@ -47,7 +47,8 @@ const server = new McpServer({
           }).optional()
         })
       }
-    }
+    },
+    resources: {}
   }
 });
 
