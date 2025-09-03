@@ -11,6 +11,7 @@ import {
 import { TelegramAuthService } from './services/telegram.auth.service.js';
 import { TelegramMessageService } from './services/telegram.message.service.js';
 import { TelegramUpdatesService } from './services/telegram.updates.service.js';
+import { TelegramChatService } from './services/telegram.chat.service.js';
 
 /**
  * Unified Telegram Service Facade
@@ -21,12 +22,14 @@ export class TelegramService implements ITelegramClient {
   private readonly authService: TelegramAuthService;
   private readonly messageService: TelegramMessageService;
   private readonly updatesService: TelegramUpdatesService;
+  private readonly chatService: TelegramChatService;
 
   constructor(token: string) {
     // Initialize all specialized services with the same token
     this.authService = new TelegramAuthService(token);
     this.messageService = new TelegramMessageService(token);
     this.updatesService = new TelegramUpdatesService(token);
+    this.chatService = new TelegramChatService(token);
   }
 
   // Delegate to auth service
@@ -90,5 +93,9 @@ export class TelegramService implements ITelegramClient {
 
   get updates(): TelegramUpdatesService {
     return this.updatesService;
+  }
+
+  get chat(): TelegramChatService {
+    return this.chatService;
   }
 }

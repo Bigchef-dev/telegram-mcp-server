@@ -7,6 +7,7 @@
 import './telegram.service.constructor.test.js';
 import './telegram.service.bot.test.js';
 import './telegram.service.messages.test.js';
+import './telegram.service.chat.test.js';
 
 // MCP tool tests
 import './mcp.tools.pinChatMessage.test.js';

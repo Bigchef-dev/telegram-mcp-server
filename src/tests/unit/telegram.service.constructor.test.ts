@@ -30,8 +30,8 @@ describe('TGService - Constructor', () => {
       const tgService = new TGService('test-token');
       
       expect(tgService).toBeInstanceOf(TGService);
-      // TGService creates 3 services (auth, message, updates), each calling axios.create
-      expect(mockedAxios.create).toHaveBeenCalledTimes(3);
+      // TGService creates 4 services (auth, message, updates, chat), each calling axios.create
+      expect(mockedAxios.create).toHaveBeenCalledTimes(4);
       expect(mockedAxios.create).toHaveBeenCalledWith({
         baseURL: 'https://api.telegram.org/bottest-token',
         headers: {
