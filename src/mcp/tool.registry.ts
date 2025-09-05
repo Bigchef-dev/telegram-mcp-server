@@ -10,7 +10,8 @@ import {
   UnpinChatMessageTool,
   UnpinAllChatMessagesTool,
   GetChatTool,
-  SendPollTool
+  SendPollTool,
+  SendContactTool
 } from "./tools/index.js";
 
 /**
@@ -37,7 +38,8 @@ export class MCPToolsRegistry {
       new UnpinChatMessageTool(this.telegramClient),
       new UnpinAllChatMessagesTool(this.telegramClient),
       new GetChatTool(this.telegramClient),
-      new SendPollTool(this.telegramClient)
+      new SendPollTool(this.telegramClient),
+      new SendContactTool(this.telegramClient)
     ];
 
     for (const tool of tools) {

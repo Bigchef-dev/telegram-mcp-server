@@ -58,3 +58,23 @@ export interface UnpinChatMessageParams {
 export interface UnpinAllChatMessagesParams {
   chat_id: number | string;
 }
+
+/**
+ * Parameters for sending a contact
+ */
+export interface SendContactParams {
+  business_connection_id?: string;
+  chat_id: number | string;
+  message_thread_id?: number;
+  direct_messages_topic_id?: number;
+  phone_number: string;
+  first_name: string;
+  last_name?: string;
+  vcard?: string;
+  disable_notification?: boolean;
+  protect_content?: boolean;
+  allow_paid_broadcast?: boolean;
+  message_effect_id?: string;
+  reply_parameters?: Record<string, any>;
+  reply_markup?: Record<string, any>;
+}

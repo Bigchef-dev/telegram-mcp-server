@@ -14,3 +14,4 @@ export { UnpinChatMessageTool } from './unpinChatMessage.tool.js';
 export { UnpinAllChatMessagesTool } from './unpinAllChatMessages.tool.js';
 export { GetChatTool } from './getChat.tool.js';
 export { SendPollTool } from './sendPoll.tool.js';
+export { SendContactTool } from './sendContact.tool.js';

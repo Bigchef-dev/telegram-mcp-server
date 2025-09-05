@@ -83,6 +83,15 @@ export class TelegramService implements ITelegramClient {
     return this.messageService.sendPoll(params);
   }
 
+  async sendContact(
+    chatId: number | string,
+    phoneNumber: string,
+    firstName: string,
+    params?: Record<string, any>
+  ): Promise<Message> {
+    return this.messageService.sendContact(chatId, phoneNumber, firstName, params);
+  }
+
   // Delegate to updates service
   async getUpdates(params?: GetUpdatesParams): Promise<TelegramUpdate[]> {
     return this.updatesService.getUpdates(params);

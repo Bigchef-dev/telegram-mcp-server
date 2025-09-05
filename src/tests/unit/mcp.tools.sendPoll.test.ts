@@ -5,21 +5,10 @@
 import { SendPollTool } from '../../mcp/tools/sendPoll.tool.js';
 import { ITelegramClient } from '../../domain/ports/index.js';
 import { Message, SendPollParams } from '../../types/index.js';
-
-// Mock Telegram client
-const mockTelegramClient: jest.Mocked<ITelegramClient> = {
-  getMe: jest.fn(),
-  sendMessage: jest.fn(),
-  getUpdates: jest.fn(),
-  forwardMessage: jest.fn(),
-  pinChatMessage: jest.fn(),
-  unpinChatMessage: jest.fn(),
-  unpinAllChatMessages: jest.fn(),
-  getChat: jest.fn(),
-  sendPoll: jest.fn(),
-};
+import { createMockTelegramClient } from '../__mocks__/telegramClient.js';
 
 describe('SendPollTool', () => {
+  let mockTelegramClient: jest.Mocked<ITelegramClient>;
   let sendPollTool: SendPollTool;
   const mockMessage: Message = {
     message_id: 123,
@@ -45,6 +34,7 @@ describe('SendPollTool', () => {
   } as Message;
 
   beforeEach(() => {
+    mockTelegramClient = createMockTelegramClient();
     sendPollTool = new SendPollTool(mockTelegramClient);
     jest.clearAllMocks();
   });

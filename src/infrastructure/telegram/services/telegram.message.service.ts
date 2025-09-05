@@ -1,4 +1,4 @@
-import { Message, ForwardMessageParams, PinChatMessageParams, UnpinChatMessageParams, SendPollParams } from '../../../types/index.js';
+import { Message, ForwardMessageParams, PinChatMessageParams, UnpinChatMessageParams, SendPollParams, SendContactParams } from '../../../types/index.js';
 import { BaseTelegramService } from '../base/telegram.base.service.js';
 
 /**
@@ -151,5 +151,26 @@ export class TelegramMessageService extends BaseTelegramService {
    */
   async sendPoll(params: SendPollParams): Promise<Message> {
     return this.request<Message>('sendPoll', params);
+  }
+
+  /**
+   * Use this method to send phone contacts.
+   * @param chatId Unique identifier for the target chat
+   * @param phoneNumber Contact's phone number
+   * @param firstName Contact's first name
+   * @param params Additional contact parameters
+   */
+  async sendContact(
+    chatId: number | string,
+    phoneNumber: string,
+    firstName: string,
+    params?: Record<string, any>
+  ): Promise<Message> {
+    return this.request<Message>('sendContact', {
+      chat_id: chatId,
+      phone_number: phoneNumber,
+      first_name: firstName,
+      ...params,
+    });
   }
 }

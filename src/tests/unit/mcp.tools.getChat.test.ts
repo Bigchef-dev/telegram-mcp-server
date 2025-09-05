@@ -1,24 +1,14 @@
 import { GetChatTool } from '../../mcp/tools/getChat.tool.js';
 import { ITelegramClient } from '../../domain/ports/index.js';
 import { ChatFullInfo } from '../../types/telegram/index.js';
-
-// Mock implementation of ITelegramClient
-const mockTelegramClient: ITelegramClient = {
-  getMe: jest.fn(),
-  sendMessage: jest.fn(),
-  getUpdates: jest.fn(),
-  forwardMessage: jest.fn(),
-  pinChatMessage: jest.fn(),
-  unpinChatMessage: jest.fn(),
-  unpinAllChatMessages: jest.fn(),
-  getChat: jest.fn(),
-  sendPoll: jest.fn()
-};
+import { createMockTelegramClient } from '../__mocks__/telegramClient.js';
 
 describe('GetChatTool', () => {
+  let mockTelegramClient: jest.Mocked<ITelegramClient>;
   let tool: GetChatTool;
 
   beforeEach(() => {
+    mockTelegramClient = createMockTelegramClient();
     tool = new GetChatTool(mockTelegramClient);
     jest.clearAllMocks();
   });

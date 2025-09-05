@@ -63,7 +63,7 @@ describe('TGService Integration Tests', () => {
 
     const pollParams = {
       chat_id: TEST_CHAT_ID,
-      question: 'Integration Test: What is your favorite programming language? (Choose up to 4 options)',
+      question: 'Integration Test: What is your favorite programming language?',
       options: [
         { text: 'JavaScript' },
         { text: 'TypeScript' },

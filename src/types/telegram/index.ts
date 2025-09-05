@@ -16,6 +16,7 @@ export type {
   PinChatMessageParams,
   UnpinChatMessageParams,
   UnpinAllChatMessagesParams,
+  SendContactParams,
 } from './message.types.js';
 
 // Chat types

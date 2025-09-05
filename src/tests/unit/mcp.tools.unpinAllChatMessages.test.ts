@@ -1,22 +1,14 @@
 import { UnpinAllChatMessagesTool } from '../../mcp/tools/unpinAllChatMessages.tool.js';
 import { ITelegramClient } from '../../domain/ports/index.js';
+import { createMockTelegramClient } from '../__mocks__/telegramClient.js';
 
 describe('UnpinAllChatMessagesTool', () => {
   let mockTelegramClient: jest.Mocked<ITelegramClient>;
   let unpinAllChatMessagesTool: UnpinAllChatMessagesTool;
 
   beforeEach(() => {
-  mockTelegramClient = {
-    getMe: jest.fn(),
-    sendMessage: jest.fn(),
-    getUpdates: jest.fn(),
-    forwardMessage: jest.fn(),
-    pinChatMessage: jest.fn(),
-    unpinChatMessage: jest.fn(),
-    unpinAllChatMessages: jest.fn(),
-    getChat: jest.fn(),
-    sendPoll: jest.fn(),
-  };    unpinAllChatMessagesTool = new UnpinAllChatMessagesTool(mockTelegramClient);
+    mockTelegramClient = createMockTelegramClient();
+    unpinAllChatMessagesTool = new UnpinAllChatMessagesTool(mockTelegramClient);
   });
 
   describe('tool configuration', () => {

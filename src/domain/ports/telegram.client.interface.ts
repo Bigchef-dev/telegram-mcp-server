@@ -103,4 +103,18 @@ export interface ITelegramClient {
    * @param params Poll parameters
    */
   sendPoll(params: SendPollParams): Promise<Message>;
+
+  /**
+   * Send phone contacts
+   * @param chatId Unique identifier for the target chat
+   * @param phoneNumber Contact's phone number
+   * @param firstName Contact's first name
+   * @param params Additional contact parameters
+   */
+  sendContact(
+    chatId: number | string,
+    phoneNumber: string,
+    firstName: string,
+    params?: Record<string, any>
+  ): Promise<Message>;
 }
