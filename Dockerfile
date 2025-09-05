@@ -16,7 +16,7 @@ RUN npm run build
 EXPOSE 3001
 
 # Support both modes via environment variable
-ENV MCP_MODE=stdio
+ENV MCP_MODE=web
 ENV PORT=3001
 
 # Start the MCP server
