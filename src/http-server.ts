@@ -79,31 +79,6 @@ export class MCPWebServer {
       });
     });
 
-    // SSE endpoint for server-to-client streaming
-    this.app.get('/sse', async (req, res) => {
-      try {
-        console.log('New SSE connection established');
-        
-        const server = this.serverFactory.createServer();
-        const transport = new SSEServerTransport('/mcp', res);
-        
-        await server.connect(transport);
-        
-        // Handle connection cleanup
-        req.on('close', () => {
-          console.log('SSE connection closed');
-        });
-        
-      } catch (error) {
-        console.error('SSE connection error:', error);
-        if (!res.headersSent) {
-          res.status(500).json({
-            error: 'Failed to establish SSE connection',
-            message: error instanceof Error ? error.message : 'Unknown error'
-          });
-        }
-      }
-    });
     // Handle POST requests for client-to-server communication
     this.app.post('/mcp', async (req, res) => {
     // Check for existing session ID
