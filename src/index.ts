@@ -2,7 +2,7 @@ import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js"
 import { TGService } from "./telegram.client.js";
 import { loadConfig } from "./shared/config/index.js";
 import { MCPServerFactory } from "./mcp/mcp.server.js";
-import { MCPWebServer } from "./server.js";
+import { MCPWebServer } from "./http-server.js";
 
 /**
  * Main entry point for the Telegram MCP Server
