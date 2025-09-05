@@ -104,11 +104,17 @@ Sends a native poll to a chat. Returns the sent Message containing the poll on s
 
 ### Environment Variables
 
-You need to set up the following environment variable:
+You need to set up the following environment variables:
 
 ```
 TELEGRAM_BOT_TOKEN=your_bot_token
+MCP_MODE=stdio
+PORT=3001
 ```
+
+- `TELEGRAM_BOT_TOKEN`: Your bot token (required)
+- `MCP_MODE`: Server mode - `stdio` for MCP clients or `web` for HTTP/SSE API (defaults to `stdio`)
+- `PORT`: Port for web mode (defaults to `3001`)
 
 You can get your bot token by talking to [@BotFather](https://t.me/BotFather) on Telegram and creating a new bot.
 
@@ -126,15 +132,25 @@ When sending a request to api.telegram.org, remember to prefix the word 'bot' to
 
 ## Development
 
+### Standard MCP Mode (stdio)
+
 ```bash
 npm install
-
 npm run build
-
 npx @modelcontextprotocol/inspector node dist/index.js
 ```
 
 Open http://127.0.0.1:6274 to set up the environment and interact with the tools.
+
+### Web Mode (HTTP/SSE)
+
+```bash
+npm install
+npm run build
+MCP_MODE=web PORT=3001 node dist/index.js
+```
+
+The server will be available at http://localhost:3001 with Server-Sent Events support.
 
 ## License
 This MCP server is licensed under the MIT License. This means you are free to use, modify, and distribute the software, subject to the terms and conditions of the MIT License. For more details, please see the LICENSE file in the project repository.
